@@ -1,92 +1,47 @@
-﻿# 测量数据处理及程序设计课程作业（NJUPT）
+﻿# Measurement Data Processing（测量数据处理与程序设计）
 
-本仓库用于整理南京邮电大学测绘工程专业课程《测量数据处理及程序设计》的实验项目与代码实现，当前包含两个相对独立的 WPF 子项目：
+这是南京邮电大学测绘工程专业《测量数据处理及程序设计》课程作业仓库。
 
-- 三角形闭合差统计（Triangle Closure Error Statistics）
-- 水准测量观测数据精度评价（Accuracy Evaluation of Leveling Survey Observation Data）
+仓库里包含多个小项目，每个项目都以**独立文件夹**存在，并在各自目录下提供 `README.md` 与简要说明文档，便于直接下载运行、用于实验报告参考或二次开发。
 
-项目定位是**学习交流与实验复现参考**，每个子目录内均提供了更细致的说明文档与示例数据。
+> 说明：本仓库开源仅用于学习交流。你当然可以将其用于自己的实验作业提交或者借鉴，但如果你不想你的代码和老学长一样“高度相似”被当场逮捕，建议你在思路、界面、输入输出、注释与参数设置等方面做出自己的修改与完善。
 
-## 仓库结构
+## 项目清单
 
-```text
-.
-├─Triangle_Closure_Error_Statistics/
-│  ├─MDP_1/
-│  ├─MDP_1.sln
-│  └─README.md
-├─Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/
-│  ├─MDP_2/
-│  ├─MDP_2.sln
-│  ├─sample_example.csv
-│  ├─项目代码介绍.md
-│  └─README.md
-└─README.md
-```
+- `Triangle_Closure_Error_Statistics/`（MDP_1）
+  - 三角形闭合差统计与相关指标计算。
+  - 具体说明见该目录下的 README。
 
-## 子项目概览
+- `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/`（MDP_2）
+  - 水准测量观测数据的平差与精度评定（WPF 桌面程序）。
+  - 含示例数据：`sample_example.csv`。
 
-### 1) Triangle_Closure_Error_Statistics（MDP_1）
+- `Matrix_mod/`
+  - 一个矩阵运算/矩阵解析相关的小项目，并包含对应的单元测试工程。
 
-- 任务目标：按区间统计三角形闭合差。
-- 核心功能：
-  - 读取闭合差数据（原始值模式/分组计数模式）
-  - 计算区间个数、频率、频率密度
-  - 表格展示与统计结果导出（CSV/TXT）
-  - WPF 折线图显示误差分布
-- 详细文档：`Triangle_Closure_Error_Statistics/README.md`
+（若你的仓库最终只保留其中一部分目录，请以 GitHub 页面展示为准。）
 
-### 2) Accuracy_Evaluation_of_Leveling_Survey_Observation_Data（MDP_2）
+## 环境与运行
 
-- 任务目标：水准观测数据读取、精度指标计算与平差结果展示。
-- 核心功能：
-  - 解析 `[Points]` + `[Edges]` 分段 CSV
-  - 计算闭合差与限差判定
-  - 计算往返差精度指标并进行改正数配赋
-  - 输出平差高程与图形化结果
-- 详细文档：`Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/README.md`
+这些项目主要是 C# / .NET（部分为 WPF 桌面）。推荐环境：
 
-## 环境要求
+- Windows 10/11
+- Visual Studio 2022 或 JetBrains Rider
+- 对应项目 `*.csproj` 所需的 .NET SDK（以项目文件设置为准）
 
-- 操作系统：Windows（WPF）
-- SDK：.NET 10（项目目标框架为 `net10.0-windows`）
-- IDE（可选）：Visual Studio / Rider
+一般可以通过打开对应的 `*.sln` 直接运行；或在命令行进入项目目录后执行 `dotnet build` / `dotnet test`（若包含测试项目）。
 
-## 快速运行
+## 目录结构约定
 
-### 运行 MDP_1
+为避免把本机构建路径（例如 `E:\NJUPT\...`）带进仓库，本仓库已忽略构建产物与 IDE 缓存：
 
-```powershell
-cd .\Triangle_Closure_Error_Statistics
-dotnet build .\MDP_1.sln
-```
+- `**/bin/`
+- `**/obj/`
+- `.vs/`, `.idea/`
 
-### 运行 MDP_2
+如果你本地已经生成了这些目录，正常情况下它们不会被提交到 GitHub。
 
-```powershell
-cd .\Accuracy_Evaluation_of_Leveling_Survey_Observation_Data
-dotnet build .\MDP_2.sln
-```
+## License
 
-随后可在 IDE 中启动对应项目，按子项目 README 的流程导入数据并完成计算。
-
-## 数据与说明文档
-
-- MDP_1 示例数据位于 `Triangle_Closure_Error_Statistics/MDP_1/Data/`
-- MDP_2 示例数据位于 `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/sample_example.csv`
-- 补充说明见各子项目目录下的 `README.md` 或项目介绍文档
-
-## 学术诚信与使用声明
-
-你可以将本仓库用于课程学习、实验参考和二次开发，但请遵守学术规范：
-
-- 建议先理解算法与流程，再结合自己的实验数据独立完成报告
-- 不建议直接复制粘贴后原样提交
-- 如用于课程作业提交，请务必进行充分修改并标注参考来源
-
-一句话建议：**借鉴思路可以，原样提交风险很高。**
-
-## 免责声明
-
-本仓库内容仅用于学习与交流，不对任何直接使用本仓库内容导致的学术后果负责。如果你被你的老师逮捕了，不要来找我。
+未特别声明时，默认仅用于学习交流；如需用于课程之外的用途，请自行评估并注明来源。
 
