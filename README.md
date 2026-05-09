@@ -8,11 +8,11 @@
 
 ## 项目清单
 
-- `Triangle_Closure_Error_Statistics/`（MDP_1）
+- `Triangle_Closure_Error_Statistics/`
   - 三角形闭合差统计与相关指标计算。
   - 具体说明见该目录下的 README。
 
-- `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/`（MDP_2）
+- `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/`
   - 水准测量观测数据的平差与精度评定（WPF 桌面程序）。
   - 含示例数据：`sample_example.csv`。
 
