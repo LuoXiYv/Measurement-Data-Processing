@@ -1,0 +1,81 @@
+﻿<Window x:Class="MDP_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="水准测量观测数据精度评价" Height="760" Width="1200" MinHeight="640" MinWidth="980">
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="LoadSampleButton" Content="加载示例数据" Width="120" Margin="0,0,8,0" Click="LoadSampleButton_OnClick"/>
+            <Button x:Name="ImportCsvButton" Content="导入CSV" Width="100" Margin="0,0,8,0" Click="ImportCsvButton_OnClick"/>
+            <Button x:Name="ComputeButton" Content="计算" Width="120" Margin="0,0,8,0" Click="ComputeButton_OnClick"/>
+            <TextBlock VerticalAlignment="Center" Foreground="DimGray"
+                       Text="CSV格式：上半段[Points]，下半段[Edges]，示例可通过“加载示例数据”查看。"/>
+        </StackPanel>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.6*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="点要素窗口" Grid.Row="0" Grid.Column="0" Margin="0,0,10,10">
+                <DataGrid x:Name="PointsGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding Points}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="点名" Binding="{Binding PID}" Width="*"/>
+                        <DataGridTextColumn Header="点高程(m)" Binding="{Binding H, StringFormat=F3}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="已知点" Binding="{Binding IsControlP}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="公共点" Binding="{Binding IsCommonP}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <GroupBox Header="边要素窗口" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                <DataGrid x:Name="EdgesGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding Lines}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="边号" Binding="{Binding LID}" Width="*"/>
+                        <DataGridTextColumn Header="起点号" Binding="{Binding SPID}" Width="*"/>
+                        <DataGridTextColumn Header="终点号" Binding="{Binding EPID}" Width="*"/>
+                        <DataGridTextColumn Header="往测高差(m)" Binding="{Binding ForwardDH, StringFormat=F3}" Width="*"/>
+                        <DataGridTextColumn Header="返测高差(m)" Binding="{Binding BackwardDH, StringFormat=F3}" Width="*"/>
+                        <DataGridTextColumn Header="均值高差(m)" Binding="{Binding dH, StringFormat=F3}" Width="*"/>
+                        <DataGridTextColumn Header="距离(km)" Binding="{Binding Distance, StringFormat=F1}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <GroupBox Header="当前点窗口（未知点初始值默认10000m）" Grid.Row="1" Grid.Column="0" Margin="0,0,10,10">
+                <DataGrid x:Name="CurrentPointsGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding CurrentPoints}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="点名" Binding="{Binding PID}" Width="*"/>
+                        <DataGridTextColumn Header="当前高程初始值(m)" Binding="{Binding InitialH, StringFormat=F3}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="已知点" Binding="{Binding IsControlP}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="公共点" Binding="{Binding IsCommonP}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <GroupBox Header="计算过程与结果文本输出" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
+                <TextBox x:Name="ResultTextBox"
+                         Text="{Binding ResultText}"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
+                         FontSize="13"/>
+            </GroupBox>
+
+            <GroupBox Header="图形界面（简图）" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                <Canvas x:Name="PlotCanvas" Background="#FFF8F8F8"/>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

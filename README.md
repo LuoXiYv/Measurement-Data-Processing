@@ -1,36 +1,86 @@
-﻿# Measurement Data Processing（测量数据处理与程序设计）
+# MDP_2 - 水准测量观测数据精度评价工具（Accuracy Evaluation of Leveling Survey Observation Data）
 
-这是南京邮电大学测绘工程专业《测量数据处理及程序设计》课程作业仓库。
+本项目是一个小型 WPF 工具，用于水准测量实验中的数据读取、计算与结果展示。该目录对应课程作业中的 `MDP_2` 项目。
 
-仓库里包含多个小项目，每个项目都以**独立文件夹**存在，并在各自目录下提供 `README.md` 与简要说明文档，便于直接下载运行、用于实验报告参考或二次开发。
+如果你需要仓库层级的总体介绍，请参考上层 `README.md`。
 
-> 说明：本仓库开源仅用于学习交流。你当然可以将其用于自己的实验作业提交或者借鉴，但如果你不想你的代码和老学长一样“高度相似”被当场逮捕，建议你在思路、界面、输入输出、注释与参数设置等方面做出自己的修改与完善。
+## 功能
 
-## 项目清单
+- 点类（`LPointClass`）与观测边类（`LineClass`）数据结构。
+- 自动读取 CSV（`[Points]` + `[Edges]` 双分段格式）。
+- 支持示例数据一键加载。
+- 计算并输出四类结果：
+  1. 未知点初始高程估计。
+  2. 高差闭合差与限差判定。
+  3. 往返差相关精度指标（`di`, `di^2`, `p*di^2`）。
+  4. 按距离配赋的改正数与平差后高程。
+- 界面提供简化高程剖面图显示。
 
-- `Triangle_Closure_Error_Statistics/`
-  - 三角形闭合差统计与相关指标计算。
-  - 具体说明见该目录下的 README。
+## 项目结构（简要）
 
-- `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/`
-  - 水准测量观测数据的平差与精度评定（WPF 桌面程序）。
-  - 含示例数据：`sample_example.csv`。
+```text
+MDP_2/
+  MDP_2.sln
+  README.md
+  sample_example315.csv
+  MDP_2/
+    MainWindow.xaml
+    MainWindow.xaml.cs
+    Models/
+      LPointClass.cs
+      LineClass.cs
+    Services/
+      CsvDataLoader.cs
+      LevelingAdjustmentService.cs
+```
 
-- `Matrix_mod/`
-  - 一个矩阵运算/矩阵解析相关的小项目，并包含对应的单元测试工程。
+## 核心类说明
 
-## 环境与运行
+- `LPointClass`：点数据模型。
+  - 关键字段：`PID`、`H`、`InitialH`、`AdjustedH`。
+  - 控制属性：`IsControlP`、`IsH0`、`IsCommonP`。
+  - 实现 `INotifyPropertyChanged`，用于界面数据绑定刷新。
 
-这些项目主要是 C# / .NET（部分为 WPF 桌面）。推荐环境：
+- `LineClass`：观测边数据模型。
+  - 关键字段：`LID`、`SPID`、`EPID`、`ForwardDH`、`BackwardDH`、`Distance`。
+  - 计算属性：`dH`（均值高差）、`Di/DiMm`、`Di2Mm2`、`PDi2Mm2PerKm`。
+  - 结果字段：`Correction`、`CorrectedDH`。
 
-- Windows 10/11
-- Visual Studio 2022 或 JetBrains Rider
-- 对应项目 `*.csproj` 所需的 .NET SDK（以项目文件设置为准）
+- `CsvDataLoader`：CSV 解析与示例数据提供。
+  - `Parse`：读取 `[Points]`/`[Edges]` 两段并生成点、边集合。
+  - `GetEmbeddedExampleCsv`：返回内置示例文本。
 
-一般可以通过打开对应的 `*.sln` 直接运行；或在命令行进入项目目录后执行 `dotnet build` / `dotnet test`（若包含测试项目）。
+- `LevelingAdjustmentService`：计算服务。
+  - `Compute`：完成初始高程估计、精度指标计算、闭合差检查、改正数分配与平差高程求解。
 
+- `MainWindow`：界面与交互控制。
+  - 负责导入数据、触发计算、刷新表格、输出结果文本、绘制简图。
 
-## License
+## CSV 格式示例
 
-未特别声明时，默认仅用于学习交流；如需用于课程之外的用途，请自行评估并注明来源。
+```csv
+[Points]
+PID,H,IsControlP,IsCommonP
+PA,12.248,true,false
+1,,false,false
+...
+PB,10.505,true,false
+
+[Edges]
+LID,SPID,EPID,ForwardDH,BackwardDH,Distance
+1,PA,1,3.248,3.240,4.0
+...
+```
+
+- `H` 为空表示未知点，界面默认初始值为 `10000m`。
+- `Distance` 单位为 `km`。
+- `ForwardDH`/`BackwardDH` 单位为 `m`，程序取均值作为测段高差。
+
+## 快速运行
+
+1. 用 Visual Studio 或 Rider 打开 `MDP_2.sln`。
+2. 运行后点击“加载示例数据”或“导入 CSV”。
+3. 点击“计算”查看结果文本与简图。
+
+示例文件：`sample_example.csv`。
 
