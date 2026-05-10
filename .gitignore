@@ -2,11 +2,22 @@
 **/bin/
 **/obj/
 
+# Test outputs
+**/TestResults/
+**/*.trx
+**/*.coverage
+
 # IDE files
 .vs/
 .idea/
+.vscode/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+*.cache
+*.log
 
 # OS
 .DS_Store

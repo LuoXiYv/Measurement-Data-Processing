@@ -86,6 +86,29 @@ public class MatrixTests
         Assert.AreEqual(3, matrix[1, 0]);
     }
 
+    [TestMethod]
+    public void Transpose_Matrix_ReturnsTransposed()
+    {
+        var a = Matrix.CreateZero(2, 3);
+        a.SetValue(0, 0, 1);
+        a.SetValue(0, 1, 2);
+        a.SetValue(0, 2, 3);
+        a.SetValue(1, 0, 4);
+        a.SetValue(1, 1, 5);
+        a.SetValue(1, 2, 6);
+
+        var t = a.Transpose();
+
+        Assert.AreEqual(3, t.Rows);
+        Assert.AreEqual(2, t.Cols);
+        Assert.AreEqual(1, t[0, 0]);
+        Assert.AreEqual(4, t[0, 1]);
+        Assert.AreEqual(2, t[1, 0]);
+        Assert.AreEqual(5, t[1, 1]);
+        Assert.AreEqual(3, t[2, 0]);
+        Assert.AreEqual(6, t[2, 1]);
+    }
+
     private static bool AreClose(double expected, double actual, double tolerance = 1e-9)
     {
         return Math.Abs(expected - actual) < tolerance;

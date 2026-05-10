@@ -1,86 +1,45 @@
-# MDP_2 - 水准测量观测数据精度评价工具（Accuracy Evaluation of Leveling Survey Observation Data）
+﻿# Measurement Data Processing（测量数据处理与程序设计）
 
-本项目是一个小型 WPF 工具，用于水准测量实验中的数据读取、计算与结果展示。该目录对应课程作业中的 `MDP_2` 项目。
+这是南京邮电大学测绘工程专业《测量数据处理及程序设计》课程作业仓库。
 
-如果你需要仓库层级的总体介绍，请参考上层 `README.md`。
+仓库中的每个练习项目都以**独立文件夹**形式存在，并在各自目录下提供项目说明、示例数据或补充文档，方便直接下载、运行、参考或二次开发。
 
-## 功能
+> 说明：本仓库开源仅用于学习交流。你可以将其用于自己的实验作业提交或者借鉴，但如果你不想你的代码和老学长一样“高度相似”被当场逮捕，建议你在思路、界面、输入输出、注释与参数设置等方面做出自己的修改与完善。
 
-- 点类（`LPointClass`）与观测边类（`LineClass`）数据结构。
-- 自动读取 CSV（`[Points]` + `[Edges]` 双分段格式）。
-- 支持示例数据一键加载。
-- 计算并输出四类结果：
-  1. 未知点初始高程估计。
-  2. 高差闭合差与限差判定。
-  3. 往返差相关精度指标（`di`, `di^2`, `p*di^2`）。
-  4. 按距离配赋的改正数与平差后高程。
-- 界面提供简化高程剖面图显示。
+## 项目清单
 
-## 项目结构（简要）
+### `Triangle_Closure_Error_Statistics/`（MDP_1）
 
-```text
-MDP_2/
-  MDP_2.sln
-  README.md
-  sample_example315.csv
-  MDP_2/
-    MainWindow.xaml
-    MainWindow.xaml.cs
-    Models/
-      LPointClass.cs
-      LineClass.cs
-    Services/
-      CsvDataLoader.cs
-      LevelingAdjustmentService.cs
-```
+- 三角形闭合差统计与相关指标计算。
+- 适用于测量平差课程中对三角网观测数据的闭合差分析。
+- 目录内含对应 `README.md` 与项目说明。
 
-## 核心类说明
+### `Accuracy_Evaluation_of_Leveling_Survey_Observation_Data/`（MDP_2）
 
-- `LPointClass`：点数据模型。
-  - 关键字段：`PID`、`H`、`InitialH`、`AdjustedH`。
-  - 控制属性：`IsControlP`、`IsH0`、`IsCommonP`。
-  - 实现 `INotifyPropertyChanged`，用于界面数据绑定刷新。
+- 水准测量观测数据的平差与精度评定。
+- 为 WPF 桌面程序，支持 CSV 数据导入、示例数据加载、结果计算与图形展示。
+- 目录内含示例数据 `sample_example.csv` 与项目说明。
 
-- `LineClass`：观测边数据模型。
-  - 关键字段：`LID`、`SPID`、`EPID`、`ForwardDH`、`BackwardDH`、`Distance`。
-  - 计算属性：`dH`（均值高差）、`Di/DiMm`、`Di2Mm2`、`PDi2Mm2PerKm`。
-  - 结果字段：`Correction`、`CorrectedDH`。
+### `Matrix_mod/`
 
-- `CsvDataLoader`：CSV 解析与示例数据提供。
-  - `Parse`：读取 `[Points]`/`[Edges]` 两段并生成点、边集合。
-  - `GetEmbeddedExampleCsv`：返回内置示例文本。
+- 矩阵运算、矩阵解析与相关功能的小项目。
+- 同时包含单元测试工程，便于验证核心逻辑。
 
-- `LevelingAdjustmentService`：计算服务。
-  - `Compute`：完成初始高程估计、精度指标计算、闭合差检查、改正数分配与平差高程求解。
+## 快速开始
 
-- `MainWindow`：界面与交互控制。
-  - 负责导入数据、触发计算、刷新表格、输出结果文本、绘制简图。
+1. 克隆仓库后，进入对应项目文件夹。
+2. 用 Visual Studio 2022 或 JetBrains Rider 打开对应的 `*.sln` 文件。
+3. 运行或调试项目，按项目说明导入示例数据或执行测试。
 
-## CSV 格式示例
+如果你偏好命令行，也可以在项目目录中使用 `dotnet build` / `dotnet test`（以项目是否包含测试工程为准）。
 
-```csv
-[Points]
-PID,H,IsControlP,IsCommonP
-PA,12.248,true,false
-1,,false,false
-...
-PB,10.505,true,false
+## 推荐开发环境
 
-[Edges]
-LID,SPID,EPID,ForwardDH,BackwardDH,Distance
-1,PA,1,3.248,3.240,4.0
-...
-```
+- Windows 10/11
+- Visual Studio 2022 或 JetBrains Rider
+- 与项目文件匹配的 .NET SDK
 
-- `H` 为空表示未知点，界面默认初始值为 `10000m`。
-- `Distance` 单位为 `km`。
-- `ForwardDH`/`BackwardDH` 单位为 `m`，程序取均值作为测段高差。
+## License
 
-## 快速运行
-
-1. 用 Visual Studio 或 Rider 打开 `MDP_2.sln`。
-2. 运行后点击“加载示例数据”或“导入 CSV”。
-3. 点击“计算”查看结果文本与简图。
-
-示例文件：`sample_example.csv`。
+未特别声明时，默认仅用于学习交流；如需用于课程之外的用途，请自行评估并注明来源。
 

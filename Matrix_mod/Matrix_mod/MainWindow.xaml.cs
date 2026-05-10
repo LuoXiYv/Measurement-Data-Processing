@@ -137,6 +137,30 @@ public partial class MainWindow : Window
         }
     }
 
+    private void TransposeAButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (!TryParseMatrix(MatrixATextBox, "A", out var a))
+        {
+            return;
+        }
+
+        var result = a.Transpose();
+        ResultTextBox.Text = result.ToDisplayString();
+        SetStatus("已完成 A 的转置。", false);
+    }
+
+    private void TransposeBButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (!TryParseMatrix(MatrixBTextBox, "B", out var b))
+        {
+            return;
+        }
+
+        var result = b.Transpose();
+        ResultTextBox.Text = result.ToDisplayString();
+        SetStatus("已完成 B 的转置。", false);
+    }
+
     private void ClearButton_OnClick(object sender, RoutedEventArgs e)
     {
         MatrixATextBox.Clear();

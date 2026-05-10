@@ -35,7 +35,9 @@
                 <Button Content="A - B" Click="SubtractButton_OnClick" Margin="0,0,8,0" />
                 <Button Content="A × B" Click="MultiplyButton_OnClick" Margin="0,0,8,0" />
                 <Button Content="求逆 A" Click="InverseAButton_OnClick" Margin="0,0,8,0" />
+                <Button Content="转置 A" Click="TransposeAButton_OnClick" Margin="0,0,8,0" />
                 <Button Content="求逆 B" Click="InverseBButton_OnClick" Margin="0,0,8,0" />
+                <Button Content="转置 B" Click="TransposeBButton_OnClick" Margin="0,0,8,0" />
                 <Button Content="清空" Click="ClearButton_OnClick" />
             </WrapPanel>
         </StackPanel>

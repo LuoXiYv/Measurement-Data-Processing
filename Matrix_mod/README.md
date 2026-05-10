@@ -18,6 +18,7 @@
 - 随机生成矩阵：根据输入的行列数，生成 1~100 的随机矩阵。
 - 矩阵运算：支持 A+B、A-B、A×B。
 - 矩阵求逆：支持 A 或 B 的逆矩阵（要求方阵且可逆）。
+- 矩阵转置：支持 A 或 B 的转置。
 
 ## 运行与测试
 
@@ -34,4 +35,3 @@ dotnet test .\Matrix_mod.Tests\Matrix_mod.Tests.csproj
 - `Matrix_mod\MainWindow.xaml`：界面布局。
 - `Matrix_mod\MainWindow.xaml.cs`：界面逻辑。
 - `Matrix_mod.Tests\MatrixTests.cs`：单元测试示例。
-

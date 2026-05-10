@@ -171,6 +171,20 @@ public sealed class Matrix
         return result;
     }
 
+    public Matrix Transpose()
+    {
+        var result = CreateZero(_cols, _rows);
+        for (var r = 0; r < _rows; r++)
+        {
+            for (var c = 0; c < _cols; c++)
+            {
+                result.SetValue(c, r, this[r, c]);
+            }
+        }
+
+        return result;
+    }
+
     public string ToDisplayString(string format = "0.###")
     {
         var builder = new StringBuilder();
